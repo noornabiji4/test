@@ -6,9 +6,13 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-// const methodOverride = require('method-override')
-// const passport = require('passport')
-// const LocalStrategy = require('passport-local');
+const testRouter = require('./routes/test')
+var passportLocalMongoose = require("passport-local-mongoose")
+
+const flash = require('connect-flash');
+const methodOverride = require('method-override')
+const passport = require('passport')
+const LocalStrategy = require('passport-local');
 
 const app = express();
 
@@ -18,18 +22,18 @@ app.use(require("express-session")({
   resave: false,
   saveUninitialized: false
 }));
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 const db = require('./models');
 
- 
+
 // // use static authenticate method of model in LocalStrategy
-// passport.use(new LocalStrategy(db.User.authenticate()));
- 
+passport.use(new LocalStrategy(db.User.authenticate()));
+
 // // use static serialize and deserialize of model for passport session support
-// passport.serializeUser(db.User.serializeUser());
-// passport.deserializeUser(db.User.deserializeUser());
+passport.serializeUser(db.User.serializeUser());
+passport.deserializeUser(db.User.deserializeUser());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -39,26 +43,47 @@ app.set('view engine', 'ejs');
 
 
 //Parsar application json
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/public',express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
-app.use(require('express-session')({ secret: 'keyboard cat', resave: true , saveUninitialized :true }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(methodOverride('_method'))
+
+app.use(flash());
+app.locals.moment = require('moment');
+// parse application/json
+app.use(bodyParser.json())
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/test', testRouter)
+
+
+
+//middleware using
+app.use(function (req, res, next) {
+  res.locals.currentUser = req.user
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+})
+
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -67,5 +92,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;

@@ -1,0 +1,50 @@
+<% include ./partials/header.ejs %>
+
+<form class="text-center border border-light p-5" id="addProfile" action='/test' method="POST">
+
+    <p class="h4 mb-4">Add New Student Profile</p>
+    
+    <div class="form-row mb-4">
+        <div class="col">
+            <input type="text" name="studentId" class="form-control" placeholder="Student ID">
+        </div>
+        <div class="col">
+            <input type="text" name="studentName" class="form-control" placeholder="Student Name">
+        </div>
+    </div>
+    <div class="form-row mb-4">
+        <div class="col">
+        
+            <input type="email" name="emailId" class="form-control" placeholder="E-mail ID">
+        </div>
+        <div class="col">
+
+            <input type="text" name="class" class="form-control" placeholder="Class">
+        </div>
+        <div class="col">
+
+            <input type="text" name="enrollment" class="form-control" placeholder="Enrollment Year">
+        </div>
+    </div>
+    <div class="form-row mb-4">
+        <div class="col">
+    
+            <input type="text" name="city" class="form-control" placeholder="City">
+        </div>
+        <div class="col">
+    
+            <input type="text" name="country" class="form-control" placeholder="Country">
+        </div>
+    </div>
+<div class="form-row mb-4">
+    <div class="col">
+    <button class="btn " type="submit">Save</button>
+    <button class="btn" type="reset"> Clear</button>
+</div>
+</div>
+</form>
+
+<!-- <script src="/public/javascript/test.js"></script> -->
+
+
+<% include ./partials/footer.ejs %>
