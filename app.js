@@ -4,11 +4,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const testRouter = require('./routes/test')
-var passportLocalMongoose = require("passport-local-mongoose")
-
+const session = require("express-session")
+const passportLocalMongoose = require("passport-local-mongoose")
 const flash = require('connect-flash');
 const methodOverride = require('method-override')
 const passport = require('passport')
@@ -16,66 +13,46 @@ const LocalStrategy = require('passport-local');
 
 const app = express();
 
-// Passport Configure
-app.use(require("express-session")({
-  secret: "ast u",
-  resave: false,
-  saveUninitialized: false
-}));
-app.use(passport.initialize());
-app.use(passport.session());
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const testRouter = require('./routes/test')
 
 const db = require('./models');
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
+app.use("/public", express.static(__dirname + "/public"));
+app.use(methodOverride('_method'));
+app.use(cookieParser('secret'));
+//require moment
+app.locals.moment = require('moment');
+// seedDB(); //seed the database
 
-// // use static authenticate method of model in LocalStrategy
+// PASSPORT CONFIGURATION
+app.use(require("express-session")({
+  secret: "Once tested",
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 passport.use(new LocalStrategy(db.User.authenticate()));
-
-// // use static serialize and deserialize of model for passport session support
 passport.serializeUser(db.User.serializeUser());
 passport.deserializeUser(db.User.deserializeUser());
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-// requires the model with Passport-Local Mongoose plugged in
+app.use(function (req, res, next) {
+  res.locals.currentUser = req.user;
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+});
 
-
-
-//Parsar application json
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use('/public', express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.json());
-app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
-
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(methodOverride('_method'))
-
-app.use(flash());
-app.locals.moment = require('moment');
-// parse application/json
-app.use(bodyParser.json())
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/test', testRouter)
-
-
-
-//middleware using
-app.use(function (req, res, next) {
-  res.locals.currentUser = req.user
-  res.locals.success = req.flash('success');
-  res.locals.error = req.flash('error');
-  next();
-})
-
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
