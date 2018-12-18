@@ -77,10 +77,12 @@ test.generateMarkup = function () {
     template += ' </thead>'
 
 
+
     $.each(test.database, function (index) {
         db = test.database;
         id = db[index];
         // console.log(id);
+        template += ''
         template += '<tbody>'
         template += '<tr>'
         template += '<td>' + id.studentId + '</td>'
