@@ -92,8 +92,8 @@ test.generateMarkup = function () {
         template += '<td>' + id.enrollment + '</td>'
         template += '<td>' + id.city + '</td>'
         template += '<td>' + id.country + '</td>'
-        template += '<td><button class="update btn btn-primary" > Update</button></td>'
-        template += '<td><button class="delete btn btn-primary">Delete</button></td>'
+        // template += '<td><button class="update btn btn-primary" > Update</button></td>'
+        // template += '<td><button class="delete btn btn-primary">Delete</button></td>'
         template += '</tr>'
         template += '</tbody>'
 
