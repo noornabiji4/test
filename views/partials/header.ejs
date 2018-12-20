@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <title>Express static server</title>
+  <title>Student Data</title>
   <script src='/public/vendor/jquery-3_3_1_min_js.js'></script>
   <link rel="stylesheet" href="/public/vendor/bootstrap.min.css" type="text/css">
   <link rel="stylesheet" href="/public/stylesheets/style.css" type="text/css">
@@ -10,7 +10,7 @@
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="https://www.thehackingschool.com/">The hacking School</a>
+    <a class="navbar-brand" href="https://www.thehackingschool.com/" target="_blank">The hacking School</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
       aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -26,38 +26,40 @@
       <!-- <a href="/signup"><button class="btn btn-primary" id="sign">Signup</button></a>
       <a href="/login"><button class="btn btn-primary" id="log">Login</button></a>
       <a href="/users/logout"> <button class="btn btn-primary" id="logout">Logout</button></a> -->
-<ul class="nav navbar-nav">
-  <li class="<%= typeof page !== 'undefined' && page === 'test' ? 'active' : '' %>"></li>
-</ul>
-<ul class="nav navbar-nav navbar-right">
-  <% if(!currentUser){ %>
-  <li class="<%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>"><a href="/login"> <button class="btn"> Login</button></a></li>
-  <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>"><a href="/signup"> <button class="btn"> Sign Up</button></a></li>
-  <% } else { %>
-  <li><a href="#">Signed In As
-      <%= currentUser.username %></a></li>
-  <li><a href="/users/logout">Logout</a></li>
-  <% } %>
-</ul>
+      <ul class="nav navbar-nav">
+        <li class="<%= typeof page !== 'undefined' && page === 'test' ? 'active' : '' %>"></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <% if(!currentUser){ %>
+        <li class="<%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>"><a href="/login"> <button
+              class="btn"> Login</button></a></li>
+        <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>"><a href="/signup">
+            <button class="btn"> Sign Up</button></a></li>
+        <% } else { %>
+        <li><a href="#">Signed In As
+            <%= currentUser.username %></a></li>
+        <li><a href="/users/logout">Logout</a></li>
+        <% } %>
+      </ul>
 
 
     </div>
   </nav>
 
-    <div class="container">
-      <% if(error && error.length > 0) { %>
-      <div class="alert alert-danger">
-        <p>
-          <%=error %>
-        </p>
-      </div>
-      <% } %>
-    
-      <% if(success && success.length > 0) { %>
-      <div class="alert alert-success">
-        <p>
-          <%= success %>
-        </p>
-      </div>
-      <% } %>
+  <div class="container">
+    <% if(error && error.length > 0) { %>
+    <div class="alert alert-danger">
+      <p>
+        <%=error %>
+      </p>
     </div>
+    <% } %>
+
+    <% if(success && success.length > 0) { %>
+    <div class="alert alert-success">
+      <p>
+        <%= success %>
+      </p>
+    </div>
+    <% } %>
+  </div>
