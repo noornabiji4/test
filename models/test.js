@@ -23,7 +23,6 @@ const schoolSchema = new mongoose.Schema({
     country: {
         type: String
     },
-
 });
 
 const School = mongoose.model('School', schoolSchema)
