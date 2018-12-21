@@ -5,8 +5,8 @@ const schoolSchema = new mongoose.Schema({
     studentId: {
         type: Number
     },
-    studentName:{
-        type:String
+    studentName: {
+        type: String
     },
     emailId: {
         type: String
@@ -20,10 +20,10 @@ const schoolSchema = new mongoose.Schema({
     city: {
         type: String
     },
-    country:{
-        type:String
-    }
-    
+    country: {
+        type: String
+    },
+
 });
 
 const School = mongoose.model('School', schoolSchema)
