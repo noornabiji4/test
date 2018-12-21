@@ -24,11 +24,14 @@ test.new = function () {
 }
 test.update = function () {
     $(".update").on('click', function () {
+        // console.log($((this)))/)
+        var number = $(this).data("id")
+        // console.log(number)
         $('#addU').show()
         $('#addU').submit(function (e) {
             e.preventDefault();
             $.post({
-                url: "/test/" + id._id,
+                url: "/test/" + number,
                 type: "PUT",
                 data: {
                     studentId: $('#add1').val(),
@@ -81,7 +84,7 @@ test.generateMarkup = function () {
     $.each(test.database, function (index) {
         db = test.database;
         id = db[index];
-        // console.log(id);
+        // console.log(id._id);
         template += ''
         template += '<tbody>'
         template += '<tr>'
@@ -92,8 +95,8 @@ test.generateMarkup = function () {
         template += '<td>' + id.enrollment + '</td>'
         template += '<td>' + id.city + '</td>'
         template += '<td>' + id.country + '</td>'
-        // template += '<td><button class="update btn btn-primary" > Update</button></td>'
-        // template += '<td><button class="delete btn btn-primary">Delete</button></td>'
+        template += '<td><button data-id=' + id._id + ' class="update btn btn-primary" > Update</button></td>'
+        template += '<td><button class="delete btn btn-primary">Delete</button></td>'
         template += '</tr>'
         template += '</tbody>'
 
