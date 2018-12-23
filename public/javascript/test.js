@@ -53,7 +53,7 @@ test.update = function () {
 test.delete = function () {
     $(".delete").on("click", function () {
         // console.log(id._id)
-        url = "/test/" + id._id;
+        url = "/test/" + number;
         $.post({
             url: url,
             method: "DELETE"
@@ -96,7 +96,7 @@ test.generateMarkup = function () {
         template += '<td>' + id.city + '</td>'
         template += '<td>' + id.country + '</td>'
         template += '<td><button data-id=' + id._id + ' class="update btn btn-primary" > Update</button></td>'
-        template += '<td><button class="delete btn btn-primary">Delete</button></td>'
+        template += '<td><button data-id=' + number + ' class="delete btn btn-primary">Delete</button></td>'
         template += '</tr>'
         template += '</tbody>'
 
