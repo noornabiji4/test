@@ -55,7 +55,7 @@ test.delete = function () {
         // console.log(id._id)
         var number = $(this).data("id")
 
-        url = "/test/" + number;
+        url = "/test/" + number     ;
         $.post({
             url: url,
             method: "DELETE"
